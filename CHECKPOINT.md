@@ -43,17 +43,24 @@ Dark: Variantes más oscuras
 
 ---
 
-## 🔨 EN PROCESO - FASE 3 (Strapi Setup)
+## 🔨 EN PROCESO - FASE 3 (Strapi Setup + API Integration)
 
 ### Completado en Fase 3:
 - ✅ Documentación de Strapi (STRAPI-SETUP.md)
-- ✅ Docker Compose mejorado con health checks
+- ✅ Docker Compose mejorado con health checks y networking
 - ✅ Dockerfile personalizado para Strapi
 - ✅ Variables de entorno documentadas (.env.example)
 - ✅ Scripts de inicialización de DB (init-db.sql)
 - ✅ Guía de API Integration (API-INTEGRATION.md)
 - ✅ Quick Start guide para levantar servicios
-- ⏳ Pendiente: Levantar Strapi en Docker y verificar
+- ✅ Guía de instalación de Docker (DOCKER-INSTALLATION.md)
+- ✅ TypeScript Content Types (content.types.ts) para todos los modelos
+- ✅ Axios HTTP Client con retry logic e interceptors (client.ts)
+- ✅ API Services factory-based (services.ts) para todos los content-types
+- ✅ Custom React Hooks (useContent.ts) para fetch, create, update, delete, search
+- ⏳ Pendiente: Levantar Strapi en Docker y crear content-types
+- ⏳ Pendiente: Generar API tokens en Strapi
+- ⏳ Pendiente: Conectar Next.js web al API
 
 ## 🚧 PRÓXIMOS PASOS (FASE 3+)
 

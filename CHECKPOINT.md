@@ -64,7 +64,10 @@ Dark: Variantes más oscuras
 - ✅ Axios HTTP Client con retry logic e interceptors (client.ts)
 - ✅ API Services factory-based (services.ts) para todos los content-types
 - ✅ Custom React Hooks (useContent.ts) para fetch, create, update, delete, search
-- ⏳ Pendiente: Configurar REST API endpoints en Strapi v3
+- 🔴 BLOQUEADOR: Crear 9 content-types en Strapi Admin UI (Fase 4.1)
+  - Instrucciones en: docs/FASE-4-INSTRUCCIONES-USUARIO.md
+  - Razón: Strapi v3.6.11 REQUIERE que content-types se creen via Admin UI
+  - Una vez creados: REST API endpoints se expondrán automáticamente
 - ⏳ Pendiente: Conectar Next.js web y admin al API de Strapi
 
 ## 🚧 PRÓXIMOS PASOS (FASE 3+)

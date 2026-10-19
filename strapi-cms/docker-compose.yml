@@ -1,52 +1,101 @@
 version: '3.8'
 
+# IPEC v2 Clean - Strapi CMS Stack
+# Contiene: PostgreSQL 16 + Strapi v5
+# Desarrollo: docker-compose up -d
+# Producción: cambiar NODE_ENV a production y usar secrets
+
 services:
   postgres:
     image: postgres:16-alpine
+    container_name: ipec_postgres
+    restart: unless-stopped
     environment:
-      POSTGRES_DB: strapi_ipec
-      POSTGRES_USER: strapi_user
+      POSTGRES_DB: ${DATABASE_NAME:-strapi_ipec}
+      POSTGRES_USER: ${DATABASE_USERNAME:-strapi_user}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_in_production}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      TZ: America/Los_Angeles
+    ports:
+      - "${DATABASE_EXTERNAL_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
+    networks:
+      - ipec_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U strapi_user"]
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-strapi_user}"]
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - strapi-network
+      start_period: 20s
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=200"
+      - "-c"
+      - "shared_buffers=256MB"
+      - "-c"
+      - "effective_cache_size=1GB"
 
   strapi:
     image: strapi/strapi:v5-latest
+    container_name: ipec_strapi
+    restart: unless-stopped
     environment:
+      # Database Configuration
+      DATABASE_CLIENT: postgres
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
-      DATABASE_NAME: strapi_ipec
-      DATABASE_USERNAME: strapi_user
+      DATABASE_NAME: ${DATABASE_NAME:-strapi_ipec}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi_user}
       DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-change_me_in_production}
-      DATABASE_SSL: 'false'
-      JWT_SECRET: ${JWT_SECRET:-change_me_in_production}
-      API_TOKEN_SALT: ${API_TOKEN_SALT:-change_me_in_production}
-      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:-change_me_in_production}
-      APP_KEYS: ${APP_KEYS:-change_me_in_production}
-      NODE_ENV: production
+      DATABASE_SSL: ${DATABASE_SSL:-false}
+
+      # Strapi Core Secrets (CAMBIAR EN PRODUCCIÓN)
+      JWT_SECRET: ${JWT_SECRET:-your_jwt_secret_min_32_chars_change_in_prod}
+      API_TOKEN_SALT: ${API_TOKEN_SALT:-your_api_token_salt_min_32_chars_change_in_prod}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:-your_admin_jwt_secret_min_32_chars_change_in_prod}
+      APP_KEYS: ${APP_KEYS:-your_app_keys_comma_separated_change_in_prod}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:-your_transfer_token_salt_change_in_prod}
+
+      # Server Configuration
+      NODE_ENV: ${NODE_ENV:-development}
+      STRAPI_ADMIN_BACKEND_URL: ${STRAPI_ADMIN_BACKEND_URL:-http://localhost:1337}
+      STRAPI_URL_PREFIX: ${STRAPI_URL_PREFIX:-/api}
+
+      # Timezone
+      TZ: America/Los_Angeles
+    ports:
+      - "${API_PORT:-1337}:1337"
     volumes:
       - strapi_data:/strapi/strapi
-    ports:
-      - "1337:1337"
+      - strapi_cache:/app/.cache
+      - strapi_tmp:/app/.tmp
     depends_on:
       postgres:
         condition: service_healthy
     networks:
-      - strapi-network
+      - ipec_network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:1337/admin/login"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 volumes:
   postgres_data:
+    driver: local
   strapi_data:
+    driver: local
+  strapi_cache:
+    driver: local
+  strapi_tmp:
+    driver: local
 
 networks:
-  strapi-network:
+  ipec_network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

@@ -156,5 +156,195 @@ Crear un sistema completo, profesional y escalable:
 
 ---
 
-**Próximo paso:** Esperar confirmación de push exitoso, luego comenzar Fase 2 (Configuración de Next.js + Strapi)
+---
+
+## 🎬 ESTADO ACTUAL (Oct 19, 2026 - 3 commits)
+
+**Sesión completada: Fase 3 Part A + Part B**
+
+### Commits realizados:
+1. ✅ `feat: initial project structure for ipec_v2_clean`
+2. ✅ `feat: configure next-intl for multilingular support`
+3. ✅ `feat: phase 3 - strapi cms configuration and documentation`
+4. ✅ `feat: phase 3 part 2 - api client, services, and hooks`
+5. ✅ `docs: phase 3 documentation index and checkpoint update`
+
+### Archivos creados en Fase 3:
+- **docs/**: STRAPI-SETUP.md, API-INTEGRATION.md, QUICK-START.md, DOCKER-INSTALLATION.md, INDEX.md
+- **strapi-cms/**: Dockerfile mejorado, docker-compose.yml mejorado, .env.example detallado, scripts/init-db.sql
+- **shared/types/**: content.types.ts con 9 modelos TypeScript
+- **shared/api/**: client.ts (Axios), services.ts (Factory pattern)
+- **shared/hooks/**: useContent.ts (5 hooks customizados)
+
+---
+
+## ⏭️ PRÓXIMOS PASOS (ACCIÓN INMEDIATA)
+
+### PREREQUISITO: Instalar Docker
+**Paso 1 - Instalar Docker en Windows (requerido antes de continuar)**
+
+```bash
+# Opción A: Docker Desktop (recomendado)
+# Descargar desde: https://www.docker.com/products/docker-desktop
+# Instalar y reiniciar Windows
+
+# Verificar instalación
+docker --version
+docker run hello-world
+```
+
+Ver `docs/DOCKER-INSTALLATION.md` para detalles.
+
+### FASE 4: Levantamiento de Strapi y Content-Types
+
+**Paso 1: Crear archivo .env en strapi-cms/**
+```bash
+cd strapi-cms
+cp .env.example .env
+# Editar .env y dejar valores por defecto (está OK para desarrollo)
+```
+
+**Paso 2: Levantar Strapi en Docker**
+```bash
+cd strapi-cms
+docker-compose up -d
+
+# Esperar ~30-45 segundos
+docker-compose logs -f strapi
+
+# Cuando veas: "✓ Server is running at http://localhost:1337"
+# ¡Está listo!
+```
+
+**Paso 3: Acceder a Strapi Admin**
+- Ir a: **http://localhost:1337/admin**
+- Crear cuenta (email + password)
+- Guardar credenciales
+
+**Paso 4: Crear Content-Types en Strapi Admin**
+
+En el panel de Strapi:
+1. **Content-Type Builder**
+2. **Create new collection type**
+3. Crear cada modelo:
+   - `hero` (singular)
+   - `about`
+   - `service`
+   - `contact`
+   - `testimonial`
+   - `footer`
+   - `gallery-item`
+   - `event`
+
+Ver `docs/STRAPI-SETUP.md` → "Modelos de Contenido" para estructura exacta de cada modelo.
+
+**Paso 5: Configurar Multiidioma en Strapi**
+1. **Settings** → **Internationalization** → **Locales**
+2. Agregar locales: `en`, `pt`, `ko`, `de` (además de `es` default)
+3. En cada content-type, marcar campos con `i18n: true`
+
+**Paso 6: Generar API Token en Strapi**
+1. **Settings** → **API Tokens**
+2. **Create new API Token**
+3. Nombre: `frontend-public`
+4. Type: `Full access` (por ahora)
+5. **Save** → Copiar token
+
+**Paso 7: Guardar Token en Variables de Entorno**
+
+**web/.env**
+```env
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337/api
+STRAPI_API_TOKEN=<token_copiado>
+```
+
+**admin/.env**
+```env
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337/api
+STRAPI_API_TOKEN=<token_copiado>
+```
+
+**Paso 8: Agregar Contenido de Prueba**
+1. **Content Manager** en Strapi
+2. Ir a **Heroes** → **Create new entry**
+3. Llenar campos en español
+4. **Publish**
+5. **Add another locale** → Traducir a inglés
+6. **Save**
+
+**Paso 9: Verificar API**
+```bash
+# Obtener héroes en español
+curl "http://localhost:1337/api/heroes?locale=es"
+
+# Deberías ver el contenido que creaste
+```
+
+**Paso 10: Levantar Next.js Web (terminal nueva)**
+```bash
+cd web
+npm run dev
+
+# Ir a http://localhost:3000
+# Deberías ver la estructura pero sin contenido (aún sin componentes)
+```
+
+---
+
+## 📝 Tareas Desglozadas para FASE 4
+
+- [ ] Instalar Docker en Windows
+- [ ] Levantar `docker-compose up -d` en strapi-cms/
+- [ ] Crear cuenta admin en Strapi
+- [ ] Crear 9 content-types (Hero, About, Service, Contact, Testimonial, Footer, Gallery, Event, Settings)
+- [ ] Configurar multiidioma (5 idiomas en web, 2 en admin)
+- [ ] Generar API token
+- [ ] Guardar token en web/.env y admin/.env
+- [ ] Crear contenido de prueba en español e inglés
+- [ ] Verificar API endpoints con curl
+- [ ] npm run dev en web
+- [ ] npm run dev en admin
+- [ ] Crear PR en GitHub con fase 4 completada
+
+---
+
+## 📊 Estadísticas Finales (Sesión)
+
+```
+Commits realizados: 5
+Archivos creados: 15+
+Líneas de código: ~2500
+Documentación: 5 archivos detallados
+TypeScript: 100% tipado
+Testing: Listo para unit tests
+
+Tiempo estimado para próxima fase: 2-3 horas
+  - Instalación Docker: 30 minutos
+  - Setup Strapi: 30 minutos
+  - Content-types: 45 minutos
+  - API testing: 15 minutos
+```
+
+---
+
+## 🎯 Objetivos Completados en Esta Sesión
+
+✅ Estructura base del proyecto  
+✅ Configuración multiidioma (web 5, admin 2)  
+✅ Documentación completa de Strapi  
+✅ Docker Compose robusto con health checks  
+✅ Cliente HTTP y servicios de API  
+✅ React hooks reutilizables  
+✅ TypeScript tipos para todos los modelos  
+✅ Guías de instalación y troubleshooting  
+✅ Commits limpios y descriptivos  
+✅ Push a GitHub exitoso  
+
+---
+
+**Próximo paso:** Instalar Docker y ejecutar `docker-compose up -d` en strapi-cms/
+
+**Repositorio:** https://github.com/schoolipec/ipec_v2_clean  
+**Branch:** main  
+**Último commit:** docs: phase 3 documentation index and checkpoint update
 

@@ -1,0 +1,24 @@
+{
+  "sidebar": {
+    "dashboard": "Panel de Control",
+    "content": "Editor de Contenido",
+    "pages": "Páginas",
+    "hero": "Sección Hero",
+    "about": "Acerca de",
+    "services": "Servicios",
+    "contact": "Contacto",
+    "footer": "Pie de Página",
+    "users": "Usuarios",
+    "settings": "Configuración"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "add": "Agregar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  }
+}

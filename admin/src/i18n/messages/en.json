@@ -1,0 +1,24 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "content": "Content Editor",
+    "pages": "Pages",
+    "hero": "Hero Section",
+    "about": "About",
+    "services": "Services",
+    "contact": "Contact",
+    "footer": "Footer",
+    "users": "Users",
+    "settings": "Settings"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

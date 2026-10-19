@@ -1,0 +1,20 @@
+{
+  "header": {
+    "about": "Sobre",
+    "services": "Serviços",
+    "groups": "Grupos",
+    "contact": "Contato",
+    "giving": "Doações"
+  },
+  "hero": {
+    "tagline": "Um lugar para crescer, pertencer e servir",
+    "title": "Cresça em sua vida espiritual",
+    "description": "Estamos aqui para caminhar com você, ouvir com cuidado e orar sinceramente por sua vida."
+  },
+  "footer": {
+    "address": "5000 Spencer St, Las Vegas, NV 89119",
+    "phone": "(702) 328-2536",
+    "followUs": "Siga-nos",
+    "copyright": "© 2026 Iglesia Plenitud en Cristo. Todos os direitos reservados."
+  }
+}

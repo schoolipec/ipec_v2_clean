@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "heroes",
+  "info": {
+    "name": "hero",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "cta_button_text": {
+      "type": "string"
+    },
+    "cta_button_link": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ]
+    },
+    "background_color": {
+      "type": "string",
+      "default": "#082942"
+    },
+    "order": {
+      "type": "integer",
+      "default": 1
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "footers",
+  "info": {
+    "name": "footer"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "copyright_text": {
+      "type": "string"
+    },
+    "quick_links": {
+      "type": "json"
+    },
+    "social_links": {
+      "type": "json"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

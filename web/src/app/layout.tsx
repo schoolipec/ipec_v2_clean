@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ClientLayout from "./ClientLayout";
+import { Suspense, lazy } from "react";
+
+const ClientLayout = lazy(() => import("./ClientLayout"));
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,7 +42,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col"><ClientLayout>{children}</ClientLayout></body>
+      <body className="min-h-full flex flex-col">
+        <Suspense fallback={<>{children}</>}>
+          <ClientLayout>{children}</ClientLayout>
+        </Suspense>
+      </body>
     </html>
   );
 }

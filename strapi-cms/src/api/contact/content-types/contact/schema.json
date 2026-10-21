@@ -1,0 +1,1 @@
+﻿{"kind":"collectionType","collectionName":"contacts","info":{"singularName":"contact","pluralName":"contacts","displayName":"Contact"},"options":{"draftAndPublish":true},"attributes":{"email":{"type":"email","required":true},"phone":{"type":"string"},"address":{"type":"text"},"hours":{"type":"json"},"social_links":{"type":"json"},"map_coordinates":{"type":"json"}}}

@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
+/* Variables CSS por tema — funcionan con .dark en <html> sin depender de Tailwind dark: variant */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-page: #ffffff;
+  --bg-alt: #f9fafb;
+  --bg-card: #ffffff;
+  --bg-dark-section: #061828;
+  --bg-dark-section-deep: #030e1a;
+  --bg-navy: #0a2240;
+  --text-primary: #082942;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --border-color: #e5e7eb;
+  --border-card: #f3f4f6;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --bg-page: #061a2e;
+  --bg-alt: #0a2240;
+  --bg-card: #0f2a42;
+  --bg-dark-section: #030e1a;
+  --bg-dark-section-deep: #020b16;
+  --bg-navy: #0a2240;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: #1e4060;
+  --border-card: #1e4060;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-page);
+  color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

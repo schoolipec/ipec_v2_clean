@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { getLocale } from 'next-intl/server';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,20 +15,30 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Iglesia Plenitud en Cristo",
   description: "Un lugar para crecer, pertenecer y servir",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/assets/logo.png', type: 'image/png', sizes: '512x512' },
+    ],
+    apple: '/assets/logo.png',
+  },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const locale = await getLocale();
-
   return (
-    <html
-      lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`} suppressHydrationWarning>
+      {/* Script inline: aplica el tema ANTES de que React hidrate para evitar flash */}
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('ipec-theme');if(t!=='light'){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){document.documentElement.classList.add('dark');}})();`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

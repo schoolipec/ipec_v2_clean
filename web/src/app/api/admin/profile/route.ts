@@ -1,9 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { requireAdminSession } from '@/lib/auth'
 import bcrypt from 'bcryptjs'
 
-export const runtime = 'nodejs'
 
 export async function GET() {
   try {
@@ -36,20 +35,20 @@ export async function PATCH(req: NextRequest) {
       if (key in data) updateData[key] = data[key]
     }
 
-    // Cambio de email — requiere contraseña actual
+    // Cambio de email â€” requiere contraseÃ±a actual
     if (data.newEmail) {
       const user = await prisma.user.findUnique({ where: { id: session.userId } })
       if (!user) return NextResponse.json({ error: 'Usuario no encontrado.' }, { status: 404 })
 
       const valid = await bcrypt.compare(data.currentPassword || '', user.passwordHash)
-      if (!valid) return NextResponse.json({ error: 'Contraseña incorrecta. Requerida para cambiar el correo.' }, { status: 400 })
+      if (!valid) return NextResponse.json({ error: 'ContraseÃ±a incorrecta. Requerida para cambiar el correo.' }, { status: 400 })
 
       const newEmail = data.newEmail.trim().toLowerCase()
-      if (!newEmail.includes('@')) return NextResponse.json({ error: 'Correo inválido.' }, { status: 400 })
+      if (!newEmail.includes('@')) return NextResponse.json({ error: 'Correo invÃ¡lido.' }, { status: 400 })
 
       const exists = await prisma.user.findUnique({ where: { email: newEmail } })
       if (exists && exists.id !== session.userId) {
-        return NextResponse.json({ error: 'Ese correo ya está en uso por otro usuario.' }, { status: 400 })
+        return NextResponse.json({ error: 'Ese correo ya estÃ¡ en uso por otro usuario.' }, { status: 400 })
       }
       updateData.email = newEmail
     }
@@ -60,10 +59,10 @@ export async function PATCH(req: NextRequest) {
 
       const valid = await bcrypt.compare(data.currentPassword || '', user.passwordHash)
       if (!valid) {
-        return NextResponse.json({ error: 'Contraseña actual incorrecta.' }, { status: 400 })
+        return NextResponse.json({ error: 'ContraseÃ±a actual incorrecta.' }, { status: 400 })
       }
       if (data.newPassword.length < 8) {
-        return NextResponse.json({ error: 'La nueva contraseña debe tener al menos 8 caracteres.' }, { status: 400 })
+        return NextResponse.json({ error: 'La nueva contraseÃ±a debe tener al menos 8 caracteres.' }, { status: 400 })
       }
 
       updateData.passwordHash = await bcrypt.hash(data.newPassword, 12)
@@ -83,3 +82,4 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: 'Error interno' }, { status: 500 })
   }
 }
+

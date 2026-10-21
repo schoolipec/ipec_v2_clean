@@ -1,31 +1,30 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { randomBytes } from 'crypto'
 
-export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
   try {
     const { token, password } = await req.json()
 
     if (!token || !password) {
-      return NextResponse.json({ error: 'Token y contraseña son requeridos.' }, { status: 400 })
+      return NextResponse.json({ error: 'Token y contraseÃ±a son requeridos.' }, { status: 400 })
     }
     if (password.length < 8) {
-      return NextResponse.json({ error: 'La contraseña debe tener al menos 8 caracteres.' }, { status: 400 })
+      return NextResponse.json({ error: 'La contraseÃ±a debe tener al menos 8 caracteres.' }, { status: 400 })
     }
 
     const invitation = await prisma.userInvitation.findUnique({ where: { token } })
 
     if (!invitation) {
-      return NextResponse.json({ error: 'Invitación no válida.' }, { status: 404 })
+      return NextResponse.json({ error: 'InvitaciÃ³n no vÃ¡lida.' }, { status: 404 })
     }
     if (invitation.acceptedAt) {
-      return NextResponse.json({ error: 'Esta invitación ya fue usada.' }, { status: 400 })
+      return NextResponse.json({ error: 'Esta invitaciÃ³n ya fue usada.' }, { status: 400 })
     }
     if (invitation.expiresAt < new Date()) {
-      return NextResponse.json({ error: 'Esta invitación ha expirado.' }, { status: 400 })
+      return NextResponse.json({ error: 'Esta invitaciÃ³n ha expirado.' }, { status: 400 })
     }
 
     const passwordHash = await bcrypt.hash(password, 12)
@@ -45,7 +44,7 @@ export async function POST(req: NextRequest) {
       data: { acceptedAt: new Date() },
     })
 
-    // Crear sesión automáticamente
+    // Crear sesiÃ³n automÃ¡ticamente
     const sessionToken = randomBytes(48).toString('hex')
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
 
@@ -68,3 +67,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Error interno del servidor.' }, { status: 500 })
   }
 }
+

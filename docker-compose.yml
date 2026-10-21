@@ -6,14 +6,14 @@ services:
     container_name: ipec-v2-nextjs
     working_dir: /app
 
-    # Montar código desde el VPS
+    # Montar código desde el VPS (monorepo: ./web/web es el proyecto Next.js)
     volumes:
-      - ./web:/app
+      - ./web/web:/app
       - /app/node_modules
 
     # Variables de ambiente
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@n8n-postgres-1:5432/suplenitud_web?schema=public
       N8N_PRAYER_WEBHOOK_URL: ${N8N_PRAYER_WEBHOOK_URL}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
@@ -21,7 +21,7 @@ services:
       NEXT_PUBLIC_SITE_URL: https://v2.suplenitud.com
 
     # Comandos
-    command: sh -c "npm install && npm run db:migrate && npm run build && npm start"
+    command: sh -c "npm install && npm run build && npm start"
 
     # Puerto interno (Traefik lo enrutará)
     expose:

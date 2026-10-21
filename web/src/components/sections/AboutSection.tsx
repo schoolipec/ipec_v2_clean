@@ -26,13 +26,6 @@ export default function AboutSection() {
             </p>
             <h2 className="text-3xl md:text-4xl font-bold mb-5" style={{ color: 'var(--text-primary)' }}>{t('title')}</h2>
             <p className="leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>{t('text')}</p>
-            <Link
-              href="/pastors"
-              className="inline-block font-bold py-3 px-8 rounded-full text-white text-sm hover:opacity-90 hover:scale-105 transition-all duration-200"
-              style={{ background: 'linear-gradient(135deg, #1565C0 0%, #2E7D32 50%, #7CB342 100%)' }}
-            >
-              {t('meetPastors')}
-            </Link>
           </div>
         </div>
       </div>

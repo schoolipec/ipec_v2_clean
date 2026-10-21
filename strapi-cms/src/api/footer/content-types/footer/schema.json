@@ -1,0 +1,1 @@
+﻿{"kind":"collectionType","collectionName":"footers","info":{"singularName":"footer","pluralName":"footers","displayName":"Footer"},"options":{"draftAndPublish":true},"attributes":{"copyright_text":{"type":"text"},"quick_links":{"type":"json"},"social_links":{"type":"json"},"logo":{"type":"media","multiple":false,"allowedTypes":["images"]}}}

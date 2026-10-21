@@ -1,9 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { requireAdminSession } from '@/lib/auth'
 import bcrypt from 'bcryptjs'
 
-export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { newPassword } = await req.json()
 
     if (!newPassword || newPassword.length < 8) {
-      return NextResponse.json({ error: 'La contraseña debe tener al menos 8 caracteres.' }, { status: 400 })
+      return NextResponse.json({ error: 'La contraseÃ±a debe tener al menos 8 caracteres.' }, { status: 400 })
     }
 
     const passwordHash = await bcrypt.hash(newPassword, 12)
@@ -28,3 +27,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Error interno' }, { status: 500 })
   }
 }
+

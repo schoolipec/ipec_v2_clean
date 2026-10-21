@@ -1,10 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { requireSuperAdmin } from '@/lib/auth'
 import { sendInvitationEmail } from '@/lib/email'
 import { randomBytes } from 'crypto'
 
-export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,7 +45,7 @@ export async function POST(req: NextRequest) {
       await sendInvitationEmail(email, inviterName, token)
     } catch (emailErr) {
       console.error('[send invitation email]', emailErr)
-      // No fallamos la invitación si el email falla — guardamos la invitación igual
+      // No fallamos la invitaciÃ³n si el email falla â€” guardamos la invitaciÃ³n igual
     }
 
     return NextResponse.json({ ok: true, invitationId: invitation.id }, { status: 201 })
@@ -74,3 +73,4 @@ export async function GET() {
     return NextResponse.json({ error: 'Error interno' }, { status: 500 })
   }
 }
+

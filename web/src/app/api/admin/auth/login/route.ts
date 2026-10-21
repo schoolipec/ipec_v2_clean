@@ -3,8 +3,6 @@ import { prisma } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { randomBytes } from 'crypto'
 
-export const runtime = 'nodejs'
-
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json()

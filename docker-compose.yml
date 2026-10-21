@@ -21,7 +21,7 @@ services:
       NEXT_PUBLIC_SITE_URL: https://v2.suplenitud.com
 
     # Comandos
-    command: sh -c "npm install && npm run build && npm start"
+    command: sh -c "npm install && npm run dev"
 
     # Puerto interno (Traefik lo enrutará)
     expose:

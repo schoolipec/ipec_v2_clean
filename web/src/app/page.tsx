@@ -1,7 +1,9 @@
 import { NextIntlClientProvider } from 'next-intl';
+import { Suspense, lazy } from 'react';
 import ThemeProvider from '@/components/ThemeProvider';
 import BibleModal from '@/components/BibleModal';
-import Header from '@/components/layout/Header';
+
+const Header = lazy(() => import('@/components/layout/Header'));
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/sections/HeroSection';
 import LiveSection from '@/components/sections/LiveSection';
@@ -20,7 +22,9 @@ export default function RootPage() {
     <NextIntlClientProvider locale="en" messages={enMessages}>
       <ThemeProvider>
         <BibleModal />
-        <Header />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
         <main className="flex-1">
           <HeroSection />
           {/* Transición: hero oscuro (#082942) → LiveSection (#061828) */}

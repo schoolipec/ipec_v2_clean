@@ -1,7 +1,8 @@
+import { Suspense, lazy } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import ThemeProvider from '@/components/ThemeProvider';
 import BibleModal from '@/components/BibleModal';
-import Header from '@/components/layout/Header';
+const Header = lazy(() => import('@/components/layout/Header'));
 import Footer from '@/components/layout/Footer';
 import ContactSection from '@/components/sections/ContactSection';
 import enMessages from '@/i18n/messages/en.json';
@@ -15,7 +16,9 @@ export default function ContactPage() {
     <NextIntlClientProvider locale="en" messages={enMessages}>
       <ThemeProvider>
         <BibleModal />
+        <Suspense fallback={null}>
         <Header />
+      </Suspense>
         <main className="flex-1 pt-0">
           <ContactSection />
         </main>

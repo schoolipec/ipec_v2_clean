@@ -42,7 +42,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-auto">
         <Suspense fallback={null}>
           <ClientLayout>{children}</ClientLayout>
         </Suspense>

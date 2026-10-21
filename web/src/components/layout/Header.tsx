@@ -32,16 +32,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
 
-  let isDark = true;
-  let toggleTheme = () => {};
-  try {
-    const theme = useTheme();
-    isDark = theme.isDark;
-    toggleTheme = theme.toggleTheme;
-  } catch {
-    // En pre-render, el contexto puede no estar disponible
-    // Usar valores por defecto
-  }
+  const { isDark, toggleTheme } = useTheme();
   const langRef = useRef<HTMLDivElement>(null);
 
   // Cerrar dropdown de idioma al click fuera

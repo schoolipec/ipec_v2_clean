@@ -43,7 +43,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <Suspense fallback={<>{children}</>}>
+        <Suspense fallback={null}>
           <ClientLayout>{children}</ClientLayout>
         </Suspense>
       </body>

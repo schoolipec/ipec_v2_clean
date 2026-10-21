@@ -6,7 +6,7 @@ const ThemeProvider = lazy(() => import('@/components/ThemeProvider'));
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
-    <Suspense fallback={<>{children}</>}>
+    <Suspense fallback={null}>
       <ThemeProvider>{children}</ThemeProvider>
     </Suspense>
   );

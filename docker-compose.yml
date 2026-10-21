@@ -6,9 +6,9 @@ services:
     container_name: ipec-v2-nextjs
     working_dir: /app
 
-    # Montar código desde el VPS (monorepo: ./web/web es el proyecto Next.js)
+    # Montar código desde el VPS
     volumes:
-      - ./web/web:/app
+      - ./web:/app
       - /app/node_modules
 
     # Variables de ambiente

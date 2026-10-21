@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ClientLayout from "./ClientLayout";
+import dynamic from "next/dynamic";
+
+const ClientLayout = dynamic(() => import("./ClientLayout"), { ssr: false });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

@@ -50,14 +50,12 @@ export function useTheme() {
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [isDark, setIsDark] = useState(true);
-  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('ipec-theme');
     const dark = saved !== 'light';
     setIsDark(dark);
     applyTheme(dark);
-    setHydrated(true);
   }, []);
 
   function toggleTheme() {
@@ -65,12 +63,6 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
     setIsDark(newDark);
     localStorage.setItem('ipec-theme', newDark ? 'dark' : 'light');
     applyTheme(newDark);
-  }
-
-  // No renderizar contexto hasta que el cliente lo haya hidratado
-  // Esto previene "Cannot read properties of null (reading 'useState')" en pre-render
-  if (!hydrated) {
-    return <>{children}</>;
   }
 
   return (

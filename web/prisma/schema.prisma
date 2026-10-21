@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Roles válidos: SUPER_ADMIN | ADMIN | TREASURER | USHER
+model User {
+  id                 String   @id @default(cuid())
+  email              String   @unique
+  name               String
+  passwordHash       String
+  role               String   @default("ADMIN")
+  phone              String?
+  whatsapp           String?
+  telegramId         String?
+  mustChangePassword      Boolean  @default(false)
+  twoFactorEnabled        Boolean  @default(false)
+  twoFactorSecret         String?
+  notifyTelegramPrayer    Boolean  @default(false)
+  notifyEmailPrayer       Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  lastLoginAt        DateTime?
+
+  sessions        Session[]
+  invitationsSent UserInvitation[] @relation("invitedBy")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserInvitation {
+  id          String    @id @default(cuid())
+  email       String
+  role        String    @default("ADMIN")
+  token       String    @unique
+  invitedById String
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  invitedBy User @relation("invitedBy", fields: [invitedById], references: [id])
+}
+
+model PrayerRequest {
+  id        String    @id @default(cuid())
+  name      String
+  request   String
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+  prayedAt  DateTime?
+  source    String    @default("website")
+}
+
+model PrayerAlertPreferences {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  notifyTelegramPrayer  Boolean  @default(false)
+  notifyEmailPrayer     Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}

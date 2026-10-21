@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  ipec-v2:
+    image: node:26-alpine
+    container_name: ipec-v2-nextjs
+    working_dir: /app
+
+    # Montar código desde el VPS
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+
+    # Variables de ambiente
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@n8n-postgres-1:5432/suplenitud_web?schema=public
+      N8N_PRAYER_WEBHOOK_URL: ${N8N_PRAYER_WEBHOOK_URL}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      PRAYER_EMAIL_INBOX: ${PRAYER_EMAIL_INBOX}
+      NEXT_PUBLIC_SITE_URL: https://v2.suplenitud.com
+
+    # Comandos
+    command: sh -c "npm install && npm run db:migrate && npm run build && npm start"
+
+    # Puerto interno (Traefik lo enrutará)
+    expose:
+      - "3000"
+
+    # Conectar a red de n8n
+    networks:
+      - n8n-internal
+
+    # Healthcheck
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    # Reinicio automático
+    restart: unless-stopped
+
+    # Labels para Traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ipec-v2.rule=Host(`v2.suplenitud.com`)"
+      - "traefik.http.routers.ipec-v2.entrypoints=websecure"
+      - "traefik.http.routers.ipec-v2.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ipec-v2.loadbalancer.server.port=3000"
+
+networks:
+  n8n-internal:
+    external: true
